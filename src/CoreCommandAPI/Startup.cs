@@ -36,6 +36,10 @@ namespace CoreCommandAPI
             services.ConfigurePostgreSql(Configuration);
             services.ConfigureRepository();
             
+            //todo: 
+            //add swagger
+            //add global error handler
+            
 
             services.AddControllers().AddNewtonsoftJson( c => {
                 c.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
