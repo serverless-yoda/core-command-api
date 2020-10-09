@@ -352,7 +352,6 @@ MigrationBackup/
 note.txt
 test-data.sql
 *.json
-/Migrations/*.*
-Migrations/
+
 
 

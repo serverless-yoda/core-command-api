@@ -12,7 +12,9 @@ using AutoMapper;
 using NLog;
 using System.IO;
 using CoreCommandContracts;
+using CoreCommandEntities.Data;
 using Newtonsoft.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreCommandAPI
 {
@@ -49,8 +51,9 @@ namespace CoreCommandAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,CoreCommandContext context)
         {
+            context.Database.Migrate();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
