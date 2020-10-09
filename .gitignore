@@ -351,7 +351,6 @@ MigrationBackup/
 
 note.txt
 test-data.sql
-appsettings.json
 *.json
 /Migrations/*.*
 Migrations/
