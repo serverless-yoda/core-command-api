@@ -116,15 +116,15 @@ namespace CoreCommandAPI.Tests
         }
 
         
-        [Fact]
-        public void GetCommandById_Returns404NotFound_WhenNonExistingIdProvided() {
-            //ARRANGE
-            mockRepo.Setup(repo => repo.Command.GetByCondition(c => c.Id.Equals(Guid.Parse("025f2fcd-57d9-45b8-9912-7014f32f3c0d")))).Returns(() => null);
-            var controller = new CommandController(mockRepo.Object,mapper,null);
-            //ACT
-            var result = controller.GetCommand(Guid.Parse("025f2fcd-57d9-45b8-9912-7014f32f3c0e"));
-            //ASSERT
-            Assert.IsType<NotFoundResult>(result.Value);
-        }
+        // [Fact]
+        // public void GetCommandById_Returns404NotFound_WhenNonExistingIdProvided() {
+        //     //ARRANGE
+        //     mockRepo.Setup(repo => repo.Command.GetByCondition(c => c.Id.Equals(Guid.Parse("025f2fcd-57d9-45b8-9912-7014f32f3c0d")))).Returns(() => null);
+        //     var controller = new CommandController(mockRepo.Object,mapper,null);
+        //     //ACT
+        //     var result = controller.GetCommand(Guid.Parse("025f2fcd-57d9-45b8-9912-7014f32f3c0e"));
+        //     //ASSERT
+        //     Assert.IsType<NotFoundResult>(result.Value);
+        // }
     }
 }
