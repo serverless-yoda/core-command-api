@@ -12,6 +12,7 @@ using CoreCommandRepositories;
 using CoreCommandLogger;
 
 using Npgsql;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 public static class ServiceExtensions {
     public static void ConfigureCors(this IServiceCollection service) 
@@ -27,12 +28,18 @@ public static class ServiceExtensions {
       builder.ConnectionString = configuration.GetConnectionString("postgresConnection");
       builder.Username =configuration["USERID"];
       builder.Password = configuration["PASSWORD"];
-      
-      
-
      service.AddDbContext<CoreCommandContext>
         (o => o.UseNpgsql(builder.ConnectionString,b => b.MigrationsAssembly("CoreCommandAPI")));  
     }
+
+    public static void ConfigureAuthentication(this IServiceCollection service,
+    IConfiguration configuration) =>
+        service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(opt => {
+                opt.Audience = configuration["RESOURCEID"];
+                opt.Authority = $"{configuration["INSTANCE"]}{configuration["TENANTID"]}";
+            });
+    
 
     public static void ConfigureRepository(this IServiceCollection service) 
     => service.AddScoped<IRepositoryWrapper,RepositoryWrapper>();

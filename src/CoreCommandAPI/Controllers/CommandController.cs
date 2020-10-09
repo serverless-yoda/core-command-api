@@ -7,6 +7,7 @@ using System;
 using AutoMapper;
 using System.Linq;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoreCommandAPI.Controllers
 {
@@ -31,6 +32,7 @@ namespace CoreCommandAPI.Controllers
             return Ok(commandDto);
          }
 
+        [Authorize]
         [HttpGet("{id}",Name="GetCommand")]
         public ActionResult<CommandReadDTO> GetCommand(Guid id) {
             var commandDb = repositoryWrapper.Command.GetByCondition(c => c.Id.Equals(id)).FirstOrDefault();

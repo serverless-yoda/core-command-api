@@ -11,10 +11,11 @@ using Microsoft.Extensions.Configuration;
 using AutoMapper;
 using NLog;
 using System.IO;
-using CoreCommandContracts;
+
 using CoreCommandEntities.Data;
 using Newtonsoft.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace CoreCommandAPI
 {
@@ -36,6 +37,7 @@ namespace CoreCommandAPI
             services.ConfigureLogger();
             services.ConfigureCors();
             services.ConfigurePostgreSql(Configuration);
+            services.ConfigureAuthentication(Configuration);
             services.ConfigureRepository();
             
             //todo: 
@@ -59,11 +61,12 @@ namespace CoreCommandAPI
                 app.UseDeveloperExceptionPage();
             }
             //default static files
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
             //cors policy
-            app.UseCors("CorsPolicy");      
+            //app.UseCors("CorsPolicy");      
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
