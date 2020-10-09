@@ -55,8 +55,9 @@ namespace CoreCommandAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-            //default 
+            //default static files
             app.UseStaticFiles();
+            //cors policy
             app.UseCors("CorsPolicy");      
             app.UseRouting();
 
