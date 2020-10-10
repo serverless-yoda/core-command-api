@@ -25,8 +25,8 @@ namespace CoreCommandAPI
         public IConfiguration Configuration {get;}
         public Startup(IConfiguration configuration)
         {
+            //Load nlog.config from root folder
             LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
-           
             Configuration = configuration;
         }
 
@@ -62,10 +62,16 @@ namespace CoreCommandAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-            //default static files
-            //app.UseStaticFiles();
-            //cors policy
-            //app.UseCors("CorsPolicy");      
+            
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseCors("CorsPolicy");      
+
+            //redirect all proxy headers to current requests
+            app.UseForwardedHeaders(new ForwardedHeadersOptions {
+                ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.All
+            });
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

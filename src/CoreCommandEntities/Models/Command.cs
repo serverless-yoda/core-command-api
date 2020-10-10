@@ -14,12 +14,14 @@ namespace CoreCommandEntities.Models
         [Required]
         public Guid Id { get; set; }
         [Required]
-        [MaxLength(250)]
+        [MaxLength(250, ErrorMessage="Maximum length for Snippet Description is 250 characters")]
         public string SnippetDescription { get; set; }
 
         [Required]
+        [MaxLength(20, ErrorMessage="Maximum length for Platform is 20 characters")]
         public string Platform { get; set; }
         [Required]
+        [MaxLength(250, ErrorMessage="Maximum length for Snippet is 250 characters")]
         public string Snippet { get; set; }
 
         public ICollection<CommandImage> Images {get;set;}

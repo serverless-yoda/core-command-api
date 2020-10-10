@@ -18,7 +18,7 @@ public static class ServiceExtensions {
 
     public static void ConfigureIISIntegration(this IServiceCollection service) 
     => service.Configure<IISOptions>(option => {});
-    
+
     public static void ConfigureCors(this IServiceCollection service) 
     => service.AddCors(option => 
             option.AddPolicy("CorsPolicy", 
@@ -26,6 +26,9 @@ public static class ServiceExtensions {
             .AllowAnyOrigin()
             .AllowAnyMethod()));
 
+    //using postgressql instead of sqlserver for database
+    //secrets.json are generated and stored locally in appdata folder
+    //its not important to add MigrationAssembly but i added it here 
     public static void ConfigurePostgreSql(this IServiceCollection service, 
     IConfiguration configuration)  {
       var builder = new NpgsqlConnectionStringBuilder();
@@ -33,7 +36,8 @@ public static class ServiceExtensions {
       builder.Username =configuration["USERID"];
       builder.Password = configuration["PASSWORD"];
      service.AddDbContext<CoreCommandContext>
-        (o => o.UseNpgsql(builder.ConnectionString,b => b.MigrationsAssembly("CoreCommandAPI")));  
+        (o => o.UseNpgsql(builder.ConnectionString,
+        b => b.MigrationsAssembly("CoreCommandAPI")));  
     }
 
     public static void ConfigureAuthentication(this IServiceCollection service,
@@ -48,6 +52,7 @@ public static class ServiceExtensions {
     public static void ConfigureRepository(this IServiceCollection service) 
     => service.AddScoped<IRepositoryWrapper,RepositoryWrapper>();
 
+    //configure logging using NLog. Implementation is using LogManager.GetCurrentClassLogger()
     public static void ConfigureLogger(this IServiceCollection service) 
     => service.AddSingleton<ILoggerManager,LoggingManager>();     
 }
