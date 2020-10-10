@@ -15,6 +15,10 @@ using Npgsql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 public static class ServiceExtensions {
+
+    public static void ConfigureIISIntegration(this IServiceCollection service) 
+    => service.Configure<IISOptions>(option => {});
+    
     public static void ConfigureCors(this IServiceCollection service) 
     => service.AddCors(option => 
             option.AddPolicy("CorsPolicy", 
