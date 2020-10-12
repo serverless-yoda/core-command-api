@@ -11,26 +11,24 @@ namespace CoreCommandRepositories {
             CoreCommandContext = coreCommandContext;
         }
         public ICommandRepository Command {
-
             get {
                 if(CommandRepository == null) {
-                    CommandRepository = new CommandRepository(CoreCommandContext);
+                    CommandRepository =
+                     new CommandRepository(CoreCommandContext);
                 }
                 return CommandRepository;
             }
         }
         public ICommandImageRepository CommandImage {
-
             get {
                 if(CommandImageRepository == null) {
-                    CommandImageRepository = new CommandImageRepository(CoreCommandContext);
+                    CommandImageRepository = 
+                    new CommandImageRepository(CoreCommandContext);
                 }
                 return CommandImageRepository;
             }
         }
-      
-        public bool Save(){
-            return CoreCommandContext.SaveChanges() >= 0;
-        }
+        public bool Save() 
+        => CoreCommandContext.SaveChanges() >= 0;        
     }
 }

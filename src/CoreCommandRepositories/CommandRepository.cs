@@ -7,15 +7,14 @@ using System.Linq;
 using System;
 
 namespace CoreCommandRepositories {
-    public class CommandRepository : BaseRepository<Command>, ICommandRepository 
+    public class CommandRepository 
+    : BaseRepository<Command>, ICommandRepository 
     {
-        public CommandRepository(CoreCommandContext repoContext):base(repoContext)
-        {
-            
-        }
+        public CommandRepository(CoreCommandContext repoContext)
+        :base(repoContext){ }
 
         public IEnumerable<Command> GetAllCommands() {
-            return GetAll().OrderBy(c => c.Platform).ToList();
+            return GetAll(false).OrderBy(c => c.Platform).ToList();
         }
     }
 }

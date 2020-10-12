@@ -27,7 +27,7 @@ namespace CoreCommandAPI.Controllers
 
         [HttpGet("{id}",Name="GetCommandImage")]
         public ActionResult<CommandImageReadDTO> GetCommandImage(Guid commandId, Guid id) {
-            var commandImageDb = repositoryWrapper.CommandImage.GetByCondition(c => c.Id.Equals(id) && c.CommandId.Equals(commandId)).FirstOrDefault();
+            var commandImageDb = repositoryWrapper.CommandImage.GetByCondition(c => c.Id.Equals(id) && c.CommandId.Equals(commandId),false).FirstOrDefault();
             if(commandImageDb == null) {
                 return NotFound();
             }
@@ -38,7 +38,7 @@ namespace CoreCommandAPI.Controllers
 
         [HttpGet]
         public ActionResult<IEnumerable<CommandImageReadDTO>> GetAllCommandImage() {
-            var commandImageDb = repositoryWrapper.CommandImage.GetAll().ToList();
+            var commandImageDb = repositoryWrapper.CommandImage.GetAll(false).ToList();
             if(commandImageDb == null) {
                 return NotFound();
             }

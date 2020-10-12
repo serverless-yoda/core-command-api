@@ -27,7 +27,7 @@ namespace CoreCommandAPI.Controllers
 
         [HttpGet]
         public ActionResult<IEnumerable<CommandReadDTO>> GetAllCommands() {
-            var commandsDb = repositoryWrapper.Command.GetAll();
+            var commandsDb = repositoryWrapper.Command.GetAll(false);
             var commandDto = mapper.Map<IEnumerable<CommandReadDTO>>(commandsDb);
             return Ok(commandDto);
          }
@@ -35,7 +35,7 @@ namespace CoreCommandAPI.Controllers
         [Authorize]
         [HttpGet("{id}",Name="GetCommand")]
         public ActionResult<CommandReadDTO> GetCommand(Guid id) {
-            var commandDb = repositoryWrapper.Command.GetByCondition(c => c.Id.Equals(id)).FirstOrDefault();
+            var commandDb = repositoryWrapper.Command.GetByCondition(c => c.Id.Equals(id),false).FirstOrDefault();
             if(commandDb == null) {
                 return NotFound();
             }
@@ -69,7 +69,7 @@ namespace CoreCommandAPI.Controllers
             if(!ModelState.IsValid) {
                 return UnprocessableEntity();
             }
-            var commandDb = repositoryWrapper.Command.GetByCondition(c => c.Id.Equals(id)).FirstOrDefault();
+            var commandDb = repositoryWrapper.Command.GetByCondition(c => c.Id.Equals(id), false).FirstOrDefault();
             if(commandDb == null) {
                 return NotFound();
             }
@@ -85,7 +85,7 @@ namespace CoreCommandAPI.Controllers
             if(patchDoc == null) {
                 return BadRequest();
             }
-            var commandDb = repositoryWrapper.Command.GetByCondition(c => c.Id.Equals(id)).FirstOrDefault();
+            var commandDb = repositoryWrapper.Command.GetByCondition(c => c.Id.Equals(id),false).FirstOrDefault();
             if(commandDb == null) {
                 return NotFound();
             }
@@ -106,7 +106,7 @@ namespace CoreCommandAPI.Controllers
     
         [HttpDelete("{id}")]
         public ActionResult Delete(Guid id) {
-            var commandDb = repositoryWrapper.Command.GetByCondition(c => c.Id.Equals(id)).FirstOrDefault();
+            var commandDb = repositoryWrapper.Command.GetByCondition(c => c.Id.Equals(id), false).FirstOrDefault();
             if(commandDb == null) {
                 return NotFound();
             }

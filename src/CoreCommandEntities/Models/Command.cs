@@ -23,7 +23,6 @@ namespace CoreCommandEntities.Models
         [Required]
         [MaxLength(250, ErrorMessage="Maximum length for Snippet is 250 characters")]
         public string Snippet { get; set; }
-
         public ICollection<CommandImage> Images {get;set;}
         
     }

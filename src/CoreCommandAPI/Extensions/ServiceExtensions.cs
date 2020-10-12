@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using CoreCommandContracts;
 using CoreCommandRepositories;
 using CoreCommandLogger;
-
 using Npgsql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 

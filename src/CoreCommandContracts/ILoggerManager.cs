@@ -1,6 +1,6 @@
 namespace CoreCommandContracts
 {
-    public interface ILoggerManager
+        public interface ILoggerManager
     {
          void LogError(string message);
          void LogDebug(string message);

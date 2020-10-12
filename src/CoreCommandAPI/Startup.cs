@@ -21,12 +21,13 @@ namespace CoreCommandAPI
 {
     public class Startup
     {
-        
         public IConfiguration Configuration {get;}
         public Startup(IConfiguration configuration)
         {
             //Load nlog.config from root folder
-            LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
+            LogManager.LoadConfiguration(
+                string.Concat(Directory.GetCurrentDirectory(),
+                "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -34,19 +35,14 @@ namespace CoreCommandAPI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            
             services.ConfigureLogger();
+            
             services.ConfigureIISIntegration();
             services.ConfigureCors();
             services.ConfigurePostgreSql(Configuration);
             services.ConfigureAuthentication(Configuration);
             services.ConfigureRepository();
             
-            //todo: 
-            //add swagger
-            //add global error handler
-            
-
             services.AddControllers().AddNewtonsoftJson( c => {
                 c.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });

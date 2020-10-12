@@ -9,8 +9,8 @@ namespace CoreCommandContracts
         void Create(T entity);
         void Delete(T entity);
         void Update(T entity);
-
-        IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression);
-        IQueryable<T> GetAll();
+        IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression, 
+        bool trackChanges);
+        IQueryable<T> GetAll(bool trackChanges);
     }
 }
