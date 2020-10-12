@@ -16,6 +16,7 @@ using CoreCommandEntities.Data;
 using Newtonsoft.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using CoreCommandContracts;
 
 namespace CoreCommandAPI
 {
@@ -40,7 +41,7 @@ namespace CoreCommandAPI
             services.ConfigureIISIntegration();
             services.ConfigureCors();
             services.ConfigurePostgreSql(Configuration);
-            services.ConfigureAuthentication(Configuration);
+            //services.ConfigureAuthentication(Configuration);
             services.ConfigureRepository();
             
             services.AddControllers().AddNewtonsoftJson( c => {
@@ -51,14 +52,17 @@ namespace CoreCommandAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,CoreCommandContext context)
+        public void Configure(IApplicationBuilder app, 
+        IWebHostEnvironment env,
+        CoreCommandContext context, 
+        ILoggerManager logger)
         {
             context.Database.Migrate();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+            app.ConfigureExceptionHandler(logger);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors("CorsPolicy");      
@@ -69,8 +73,9 @@ namespace CoreCommandAPI
             });
 
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            
+            //app.UseAuthentication();
+            //app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

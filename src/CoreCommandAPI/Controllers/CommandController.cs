@@ -32,7 +32,7 @@ namespace CoreCommandAPI.Controllers
             return Ok(commandDto);
          }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}",Name="GetCommand")]
         public ActionResult<CommandReadDTO> GetCommand(Guid id) {
             var commandDb = repositoryWrapper.Command.GetByCondition(c => c.Id.Equals(id),false).FirstOrDefault();
