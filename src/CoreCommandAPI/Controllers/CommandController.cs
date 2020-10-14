@@ -18,7 +18,9 @@ namespace CoreCommandAPI.Controllers
         private readonly IRepositoryWrapper repositoryWrapper;
         private readonly ILoggerManager logger;
         private readonly IMapper mapper;
-        public CommandController(IRepositoryWrapper _repositoryWrapper, IMapper _mapper, ILoggerManager _logger)
+        public CommandController(IRepositoryWrapper _repositoryWrapper, 
+        IMapper _mapper, 
+        ILoggerManager _logger)
         {
             repositoryWrapper = _repositoryWrapper;
             mapper = _mapper;
@@ -27,7 +29,10 @@ namespace CoreCommandAPI.Controllers
 
         [HttpGet]
         public ActionResult<IEnumerable<CommandReadDTO>> GetAllCommands() {
-            var commandsDb = repositoryWrapper.Command.GetAll(false);
+            var commandsDb = repositoryWrapper
+                .Command
+                .GetAll(trackChanges:false);
+                
             var commandDto = mapper.Map<IEnumerable<CommandReadDTO>>(commandsDb);
             return Ok(commandDto);
          }
@@ -35,7 +40,11 @@ namespace CoreCommandAPI.Controllers
         //[Authorize]
         [HttpGet("{id}",Name="GetCommand")]
         public ActionResult<CommandReadDTO> GetCommand(Guid id) {
-            var commandDb = repositoryWrapper.Command.GetByCondition(c => c.Id.Equals(id),false).FirstOrDefault();
+            var commandDb = repositoryWrapper
+                .Command
+                .GetByCondition(c => c.Id.Equals(id),trackChanges:false)
+                .FirstOrDefault();
+
             if(commandDb == null) {
                 return NotFound();
             }

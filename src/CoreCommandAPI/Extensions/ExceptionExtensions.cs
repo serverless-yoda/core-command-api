@@ -3,7 +3,6 @@ using CoreCommandContracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-
 public static class ExceptionExtensions
 {
     public static void ConfigureExceptionHandler(this IApplicationBuilder app, 

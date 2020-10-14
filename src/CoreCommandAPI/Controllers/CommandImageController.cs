@@ -18,7 +18,9 @@ namespace CoreCommandAPI.Controllers
         private readonly ILoggerManager logger;
         private readonly IMapper mapper;
 
-         public CommandImageController(IRepositoryWrapper _repositoryWrapper, IMapper _mapper, ILoggerManager _logger)
+         public CommandImageController(IRepositoryWrapper _repositoryWrapper, 
+         IMapper _mapper, 
+         ILoggerManager _logger)
         {
             repositoryWrapper = _repositoryWrapper;
             mapper = _mapper;
@@ -27,7 +29,11 @@ namespace CoreCommandAPI.Controllers
 
         [HttpGet("{id}",Name="GetCommandImage")]
         public ActionResult<CommandImageReadDTO> GetCommandImage(Guid commandId, Guid id) {
-            var commandImageDb = repositoryWrapper.CommandImage.GetByCondition(c => c.Id.Equals(id) && c.CommandId.Equals(commandId),false).FirstOrDefault();
+            var commandImageDb = repositoryWrapper
+                .CommandImage
+                .GetByCondition(c => c.Id.Equals(id) && c.CommandId.Equals(commandId),trackChanges:false)
+                .FirstOrDefault();
+
             if(commandImageDb == null) {
                 return NotFound();
             }
@@ -38,7 +44,10 @@ namespace CoreCommandAPI.Controllers
 
         [HttpGet]
         public ActionResult<IEnumerable<CommandImageReadDTO>> GetAllCommandImage() {
-            var commandImageDb = repositoryWrapper.CommandImage.GetAll(false).ToList();
+            var commandImageDb = repositoryWrapper
+                .CommandImage
+                .GetAll(trackChanges:false).ToList();
+
             if(commandImageDb == null) {
                 return NotFound();
             }
@@ -58,7 +67,7 @@ namespace CoreCommandAPI.Controllers
             commandImageDB.CommandId = commandId;
             repositoryWrapper.CommandImage.Create(commandImageDB);
             var result = repositoryWrapper.Save();
-            logger.LogInfo(result ? "Success": "Failed");
+           
             var commandImageDto = mapper.Map<CommandImageReadDTO>(commandImageDB);
 
             return CreatedAtRoute(nameof(GetCommandImage), new { commandId, id = commandImageDto.Id},commandImageDto);

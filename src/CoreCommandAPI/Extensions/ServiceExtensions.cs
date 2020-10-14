@@ -12,6 +12,7 @@ using CoreCommandRepositories;
 using CoreCommandLogger;
 using Npgsql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using CoreCommandAPI.Formatters;
 
 public static class ServiceExtensions {
 
@@ -54,4 +55,8 @@ public static class ServiceExtensions {
     //configure logging using NLog. Implementation is using LogManager.GetCurrentClassLogger()
     public static void ConfigureLogger(this IServiceCollection service) 
     => service.AddSingleton<ILoggerManager,LoggingManager>();     
+
+    //content negotiation
+    public static IMvcBuilder AddCustomDelimeterFormatter(this IMvcBuilder builder)
+    => builder.AddMvcOptions(c => c.OutputFormatters.Add(new DelimeterOutputFormatter()));
 }

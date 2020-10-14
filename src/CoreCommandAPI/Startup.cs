@@ -44,9 +44,18 @@ namespace CoreCommandAPI
             //services.ConfigureAuthentication(Configuration);
             services.ConfigureRepository();
             
-            services.AddControllers().AddNewtonsoftJson( c => {
+            services.AddControllers(c => {
+                //content negotiation
+                c.RespectBrowserAcceptHeader = true;
+                c.ReturnHttpNotAcceptable = true;
+            })
+            .AddNewtonsoftJson( c => {
                 c.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            });
+                c.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            })
+            .AddXmlDataContractSerializerFormatters()
+            .AddCustomDelimeterFormatter();
+
 
             services.AddAutoMapper(typeof(Startup));
         }
